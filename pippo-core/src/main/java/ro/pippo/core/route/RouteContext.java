@@ -22,6 +22,7 @@ import ro.pippo.core.PippoSettings;
 import ro.pippo.core.Request;
 import ro.pippo.core.Response;
 import ro.pippo.core.Session;
+import ro.pippo.core.SimpleTypeReference;
 
 import java.io.File;
 import java.util.Date;
@@ -82,7 +83,7 @@ public interface RouteContext {
 
     <T> T createEntityFromParameters(Class<T> classOfT);
 
-    <T> T createEntityFromBody(Class<T> classOfT);
+    <T> T createEntityFromBody(SimpleTypeReference simpleTypeReference);
 
     String getRequestUri();
 

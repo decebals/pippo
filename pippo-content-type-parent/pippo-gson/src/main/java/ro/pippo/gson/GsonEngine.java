@@ -71,6 +71,11 @@ public class GsonEngine implements ContentTypeEngine {
         return gson.fromJson(content, classOfT);
     }
 
+    @Override
+    public <T> T fromString(String content, Type typeOfT) {
+        return gson.fromJson(content, typeOfT);
+    }
+
     public static class ISO8601DateTypeAdapter implements JsonSerializer<java.sql.Date>, JsonDeserializer<java.sql.Date> {
         private final DateFormat dateFormat;
 

@@ -16,10 +16,9 @@
 package ro.pippo.controller.extractor;
 
 import org.kohsuke.MetaInfServices;
+
 import ro.pippo.controller.MethodParameter;
 import ro.pippo.core.route.RouteContext;
-
-import java.util.Collection;
 
 /**
  * @author Decebal Suiu
@@ -34,17 +33,8 @@ public class BodyExtractor implements MethodParameterExtractor {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Object extract(MethodParameter parameter, RouteContext routeContext) {
-        Class<?> parameterType = parameter.getParameterType();
-        if (Collection.class.isAssignableFrom(parameterType)) {
-            Class<? extends Collection> collectionType = (Class<? extends Collection>) parameterType;
-
-            // TODO improve body collection support
-            return routeContext.createEntityFromBody(collectionType);
-        }
-
-        return routeContext.createEntityFromBody(parameterType);
+        return routeContext.createEntityFromBody(parameter.toTypeReference());
     }
 
 }

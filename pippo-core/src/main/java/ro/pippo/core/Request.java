@@ -306,11 +306,11 @@ public final class Request {
         return entity;
     }
 
-    public <T> T createEntityFromBody(Class<T> entityClass) {
+    public <T> T createEntityFromBody(SimpleTypeReference simpleTypeReference) {
         try {
             String body = getBody();
             if (StringUtils.isNullOrEmpty(body)) {
-                log.warn("Can not create entity '{}' from null or empty request body!", entityClass.getName());
+                log.warn("Can not create entity '{}' from null or empty request body!", simpleTypeReference.getTypeName());
                 return null;
             }
 
@@ -324,23 +324,23 @@ public final class Request {
             if (StringUtils.isNullOrEmpty(contentType)) {
                 throw new PippoRuntimeException(
                     "Failed to create entity '{}' from request body because 'content-type' is not specified!",
-                    entityClass.getName());
+                    simpleTypeReference.getTypeName());
             }
 
             ContentTypeEngine engine = contentTypeEngines.getContentTypeEngine(contentType);
             if (engine == null) {
                 throw new PippoRuntimeException(
                     "Failed to create entity '{}' from request body because a content engine for '{}' could not be found!",
-                    entityClass.getName(), contentType);
+                    simpleTypeReference.getTypeName(), contentType);
             }
 
-            return engine.fromString(body, entityClass);
+            return engine.fromString(body, simpleTypeReference.getParameterizedType());
         } catch (PippoRuntimeException e) {
             // pass-through PippoRuntimeExceptions
             throw e;
         } catch (Exception e) {
             // capture and re-throw all other exceptions
-            throw new PippoRuntimeException(e, "Failed to create entity '{}' from request body!", entityClass.getName());
+            throw new PippoRuntimeException(e, "Failed to create entity '{}' from request body!", simpleTypeReference.getTypeName());
         }
     }
 

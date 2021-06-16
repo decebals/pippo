@@ -16,6 +16,7 @@
 package ro.pippo.controller;
 
 import ro.pippo.core.PippoRuntimeException;
+import ro.pippo.core.SimpleTypeReference;
 import ro.pippo.core.util.LangUtils;
 
 import java.lang.annotation.Annotation;
@@ -38,10 +39,15 @@ public class MethodParameter {
     private volatile String parameterName;
     private volatile Class<?> parameterType;
     private volatile Class<?> parameterGenericType;
+    private volatile Type parameterizedType;
 
     public MethodParameter(Method method, int parameterIndex) {
         this.method = method;
         this.parameterIndex = parameterIndex;
+    }
+
+    public SimpleTypeReference toTypeReference() {
+        return new SimpleTypeReference(getParameterType(), getParameterizedType());
     }
 
     public Method getMethod() {
@@ -74,6 +80,14 @@ public class MethodParameter {
         }
 
         return parameterType;
+    }
+
+    public Type getParameterizedType() {
+        if (parameterizedType == null) {
+            parameterizedType = getParameter().getParameterizedType();
+        }
+
+        return parameterizedType;
     }
 
     public Class<?> getParameterGenericType() {

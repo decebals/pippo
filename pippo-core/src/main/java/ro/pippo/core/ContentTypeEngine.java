@@ -15,6 +15,7 @@
  */
 package ro.pippo.core;
 
+import java.lang.reflect.Type;
 
 /**
  * @author James Moger
@@ -28,5 +29,12 @@ public interface ContentTypeEngine {
     String toString(Object object);
 
     <T> T fromString(String content, Class<T> classOfT);
+
+    // TODO: Instead of the "Type typeOfT", is it better to receive SimpleTypeReference right away? Thus giving more flexibility.
+    default <T> T fromString(String content, Type typeOfT) {
+        // TODO: default to fromString(String, Class<T>) with Class.forName(typeOfT.getTypeName()) ? Ugly and fragile idea !!!
+        // TODO: throw new PippoRuntimeException("Not implemented"); ?
+        return null;
+    }
 
 }

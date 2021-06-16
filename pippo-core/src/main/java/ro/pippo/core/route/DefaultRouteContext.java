@@ -24,6 +24,7 @@ import ro.pippo.core.PippoSettings;
 import ro.pippo.core.Request;
 import ro.pippo.core.Response;
 import ro.pippo.core.Session;
+import ro.pippo.core.SimpleTypeReference;
 import ro.pippo.core.util.StringUtils;
 
 import java.io.File;
@@ -191,8 +192,8 @@ public class DefaultRouteContext implements RouteContext {
     }
 
     @Override
-    public <T> T createEntityFromBody(Class<T> classOfT) {
-        return request.createEntityFromBody(classOfT);
+    public <T> T createEntityFromBody(SimpleTypeReference simpleTypeReference) {
+        return request.createEntityFromBody(simpleTypeReference);
     }
 
     @Override
